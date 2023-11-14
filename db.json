@@ -27,5 +27,21 @@
       "price": "39.99",
       "imageUrl": "https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_.jpg"
     }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "username": "baris",
+      "password": "123456789",
+      "passwordConfirmation": "123456789",
+      "email:": "baris.tncdmr@gmail.com"
+    },
+    {
+      "username": "artefilex",
+      "password": "123456789as",
+      "passwordConfirmation": "123456789as",
+      "email": "baris.tncdmr@gmail.com",
+      "id": "XpNxCb7"
+    }
   ]
 }

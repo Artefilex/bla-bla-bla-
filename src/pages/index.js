@@ -1,10 +1,6 @@
-import {
-  Button,
-  Grid,
-} from '@mui/material';
+import {Grid} from '@mui/material';
 import axios from 'axios';
 import { useEffect , useState } from 'react';
-
 import CardComponent from "../componets/CardComponet.jsx"
 import Navbar from '@/componets/Navbar.jsx';
 export default function Home() {

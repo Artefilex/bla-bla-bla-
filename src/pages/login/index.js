@@ -1,13 +1,13 @@
 import { Button, Container, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import Link from "next/link";
+import { loginShema } from "@/helpers/validation";
 
 export default function Login() {
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
-      passwordConfirmation: "",
       email: "",
     },
     validationSchema: loginShema,
@@ -58,18 +58,7 @@ export default function Login() {
           onBlur={formik.handleBlur}
           type="password"
         />
-        <TextField
-          fullWidth
-          id="passwordConfirmation"
-          name="passwordConfirmation"
-          label="Password Confirm"
-          value={formik.values.passwordConfirmation}
-          onChange={formik.handleChange}
-          margin="normal"
-          error={formik.touched.title && Boolean(formik.errors.title)}
-          helperText={formik.touched.title && formik.errors.title}
-          onBlur={formik.handleBlur}
-        />
+     
         <Button color="primary" variant="contained" fullWidth type="submit"> Login </Button>
         <Link href={"/sign-up"}> Hala üye olmadın mı   </Link>
       </form>
