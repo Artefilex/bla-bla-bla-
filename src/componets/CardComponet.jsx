@@ -14,8 +14,7 @@ function CardComponet({ imageUrl, title ,description , id  }) {
   
   
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
+    <Card sx={{ minHeight:"500px"  ,maxWidth: "370px" , marginTop:"1rem" , position:"relative"}}>  
         <CardMedia
           component="img"
           height="140"
@@ -31,7 +30,7 @@ function CardComponet({ imageUrl, title ,description , id  }) {
             {description}...
           </Typography>
         </CardContent>
-        <CardActions>
+        <CardActions sx={{paddingTop:"2rem", position:"absolute" , bottom:"0"}}>
           <Button
             variant="contained"
             size="small"
@@ -51,7 +50,7 @@ function CardComponet({ imageUrl, title ,description , id  }) {
           </Button>
         
         </CardActions>
-      </CardActionArea>
+   
     </Card>
   );
 }

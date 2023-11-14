@@ -1,4 +1,4 @@
-import * as React from "react";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,10 +8,19 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
 import { useRouter } from "next/router";
-
+import { useEffect ,useState } from "react";
 export default function Navbar() {
   const router = useRouter();
-
+  const [user, setUser] = useState(null)
+  
+  useEffect(()=>{
+    const userStorege =  localStorage.getItem("user")
+    setUser(JSON.parse(userStorege))
+   },[])
+   const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -37,10 +46,16 @@ export default function Navbar() {
             </Button>
             
           </Typography>
-          <Button 
-            onClick={() => router.push("/login")}
-             color="inherit">
-            Login</Button>
+    {
+      user ? (
+        <Button color="inherit" onClick={handleLogout}> Log out</Button>
+      ): (
+        <Button 
+        onClick={() => router.push("/login")}
+         color="inherit">
+        Login</Button>
+      )
+    }
         </Toolbar>
       </AppBar>
     </Box>
