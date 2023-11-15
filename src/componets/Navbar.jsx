@@ -9,6 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect ,useState } from "react";
+import NavbarSearch from "./NavbarSearch";
 export default function Navbar() {
   const router = useRouter();
   const [user, setUser] = useState(null)
@@ -46,6 +47,7 @@ export default function Navbar() {
             </Button>
             
           </Typography>
+          <NavbarSearch/>
     {
       user ? (
         <Button color="inherit" onClick={handleLogout}> Log out</Button>

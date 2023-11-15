@@ -15,6 +15,7 @@ import {
   import { useRouter } from 'next/router';
   import { useEffect, useState } from 'react';
   import { BookSchema } from '@/helpers/validation';  
+import DeleteItem from '@/componets/DeleteItem';
 
 const EditBook = () => {
     const router = useRouter();
@@ -33,13 +34,16 @@ const EditBook = () => {
       },
       validationSchema: BookSchema,
       onSubmit: async (values) => {
-        try {
-          await axios.put(`http://localhost:3001/books/${id}`, values);
-          alert('Book updated succesfully!');
+        axios
+        .put(`http://localhost:3001/books/${id}`, values)
+        .then(() => {
+          alert('Book updated successfully!');
           router.push('/');
-        } catch (error) {
+        })
+        .catch((error) => {
           alert('Failed to update book');
-        }
+          console.log(error)
+        });
       },
     });
   
@@ -59,20 +63,15 @@ const EditBook = () => {
         } catch (error) {
           console.error('Error!!!', error);
         }
+
         setLoading(false);
       };
       if (id) fetchBookData();
-    }, [id]);
+    }, [id, formik ]);
   
     //   if (loading) {
     //     return <CircularProgress />;
-    //   }
-
-    const handleDelete = async () =>{
-        await axios.delete(`http://localhost:3001/books/${id}`) 
-        router.push('/');   
-       }
-   
+  
     return (
       
       <Container>
@@ -173,9 +172,10 @@ const EditBook = () => {
             </form>
           </Typography>
         </Stack>
-        <Button color="primary" variant="contained" fullWidth onClick={handleDelete}  >
+        {/* <Button color="primary" variant="contained" fullWidth onClick={handleDelete}  >
                 Delete Book
-              </Button>
+              </Button> */}
+          <DeleteItem itemId={id} />    
       </Container>
     );
   };

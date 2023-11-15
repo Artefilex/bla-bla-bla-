@@ -12,7 +12,6 @@ import { useRouter } from "next/router";
 function CardComponet({ imageUrl, title ,description , id  }) {
   const router = useRouter() 
   
-  
   return (
     <Card sx={{ minHeight:"500px"  ,maxWidth: "370px" , marginTop:"1rem" , position:"relative"}}>  
         <CardMedia
@@ -47,6 +46,14 @@ function CardComponet({ imageUrl, title ,description , id  }) {
             component="span"
           >
             Edit
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => router.push(`/delete-item/${id}`)}
+            component="span"
+          >
+            Delete 
           </Button>
         
         </CardActions>

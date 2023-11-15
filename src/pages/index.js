@@ -8,11 +8,16 @@ export default function Home() {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {  
-    axios.get('http://localhost:3001/books')
+    const fetchData = () =>{
+    setTimeout(()=>{
+      axios.get('http://localhost:3001/books')
       .then((response) => {
         setBooks(response.data);
       })
       .catch((error) => console.error('error :>> ', error));
+    },1000)
+    }
+    fetchData()
   }, []);
 
   
