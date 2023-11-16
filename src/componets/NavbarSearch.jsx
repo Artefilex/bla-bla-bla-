@@ -1,22 +1,32 @@
-// import { searchBooks } from "@/api/search";
+import { searchBooks } from "@/api/search";
+import axios from "axios";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 import { Button } from "@mui/material";
 function NavbarSearch() {
   const [searchFilter, setSearchFilter] = useState("");
+  const [data , setData] = useState([])
   const handleSearch = (e) => {
     setSearchFilter(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSearchFilter("");
-  };
+  const handleSubmit = async ()=>{
+    if(searchFilter){
 
-console.log(searchFilter)
+        const response = await axios.get(`http://localhost:3001/books/?title=${searchFilter}`)
+        console.log(response.data)
+        if (response.data) {
+          setData(response.data)
+        }
+      setSearchFilter("")
+      
+    }
+  }
+
   return (
-    <form style={{display:"flex" , alignItems:"center", justifyContent:"center" , border:"1px solid white", borderRadius:"4px" }} onSubmit={handleSubmit}>
-      <input
+    // <form style={{display:"flex" , alignItems:"center", justifyContent:"center" , border:"1px solid white", borderRadius:"4px" }} onSubmit={handleSubmit}>
+<>
+<input
         placeholder="Search…"
         value={searchFilter}
         onChange={handleSearch}
@@ -29,10 +39,11 @@ console.log(searchFilter)
        color:"white"
        }}
       />
-      <Button type="submit" color="inherit">
+      <Button type="submit" color="inherit" onClick={handleSubmit}>
         <SearchIcon />
       </Button>
-    </form>
+</>
+    // </form>
   );
 }
 

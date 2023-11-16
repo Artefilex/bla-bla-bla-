@@ -1,15 +1,15 @@
 
 
-import { Button, CardMedia, Container, Popover, Stack, Typography } from "@mui/material";
+import { Button, CardMedia, Container, Typography } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
 
 function DeleteItem() {
 const [book ,setBook] = useState(null) 
     const router = useRouter()
     const {id} = router.query
+
     useEffect(() => {  
         const fetchData = () =>{
         setTimeout(()=>{
@@ -23,7 +23,7 @@ const [book ,setBook] = useState(null)
         fetchData()
       }, [id]);
     
-    const handleDelete =async () => {
+    const handleDelete = async () => {
         try {
             
             await axios.delete(`http://localhost:3001/books/${id}`);

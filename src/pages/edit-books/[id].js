@@ -15,14 +15,14 @@ import {
   import { useRouter } from 'next/router';
   import { useEffect, useState } from 'react';
   import { BookSchema } from '@/helpers/validation';  
-import DeleteItem from '@/componets/DeleteItem';
+// import DeleteItem from '@/componets/DeleteItem';
 
 const EditBook = () => {
     const router = useRouter();
     const { id } = router.query;
 
     const [loading, setLoading] = useState(false);
-  
+   
     const formik = useFormik({
       initialValues: {
         title: '',
@@ -46,7 +46,7 @@ const EditBook = () => {
         });
       },
     });
-  
+
     useEffect(() => {
       const fetchBookData = async () => {
         setLoading(true);
@@ -60,6 +60,7 @@ const EditBook = () => {
             }, 2000);
           });
           formik.setValues(response.data);
+      
         } catch (error) {
           console.error('Error!!!', error);
         }
@@ -67,7 +68,7 @@ const EditBook = () => {
         setLoading(false);
       };
       if (id) fetchBookData();
-    }, [id, formik ]);
+    },[id]);
   
     //   if (loading) {
     //     return <CircularProgress />;
@@ -175,7 +176,7 @@ const EditBook = () => {
         {/* <Button color="primary" variant="contained" fullWidth onClick={handleDelete}  >
                 Delete Book
               </Button> */}
-          <DeleteItem itemId={id} />    
+          {/* <DeleteItem itemId={id} />     */}
       </Container>
     );
   };

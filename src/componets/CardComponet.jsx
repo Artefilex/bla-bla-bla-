@@ -1,7 +1,6 @@
 import {
   Button,
   Card,
-  CardActionArea,
   CardActions,
   CardContent,
   CardMedia,
@@ -9,9 +8,9 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 
-function CardComponet({ imageUrl, title ,description , id  }) {
+function CardComponet({ imageUrl , title ,description , id  }) {
   const router = useRouter() 
-  
+
   return (
     <Card sx={{ minHeight:"500px"  ,maxWidth: "370px" , marginTop:"1rem" , position:"relative"}}>  
         <CardMedia

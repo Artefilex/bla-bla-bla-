@@ -15,7 +15,11 @@ export default function SignUp() {
     validationSchema: signShema  ,
     onSubmit: async (values) => {
       try {
-        await  axios.post("http://localhost:3001/users",values)
+        await  axios.post("http://localhost:3001/users",{
+          "username": values.username,
+          "email": values.email,
+          "password": values.password
+         })
         alert('User Add');
         router.push('/login');
       } catch (error) {

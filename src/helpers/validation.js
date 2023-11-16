@@ -6,7 +6,7 @@ export const BookSchema = Yup.object().shape({
     author: Yup.string().required('Author is required'),
     description: Yup.string()
       .min(2, 'Too short!')
-      .max(250, 'Too Long!')
+      .max(1250, 'Too Long!')
       .required('Description is required'),
     price: Yup.number()
       .positive('Price must be a positive number')
@@ -24,7 +24,7 @@ export const loginShema = Yup.object().shape({
 
 export const signShema = Yup.object().shape({
   username: Yup.string().required('Title is required'),
-  password:Yup.string()
+  password:Yup.string().required("ıs Requierd")
   .min(8, 'Password is too short - should be 8 chars minimum.')
   .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.'),
  passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),

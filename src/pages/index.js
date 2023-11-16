@@ -12,6 +12,7 @@ export default function Home() {
     setTimeout(()=>{
       axios.get('http://localhost:3001/books')
       .then((response) => {
+        
         setBooks(response.data);
       })
       .catch((error) => console.error('error :>> ', error));
@@ -20,19 +21,16 @@ export default function Home() {
     fetchData()
   }, []);
 
-  
+  // const filterBooks = books.filter((item) => item.id === 1)
+  // console.log(filterBooks)
 
 
 
   return (
    
    <>
-   <Navbar/>
-    {/* <Link href="/add-book">
-    <Button variant="contained" color="primary">
-      Add Book
-    </Button>
-  </Link> */}
+   <Navbar/> 
+   
     <Grid container spacing={2}>
    
     {books &&

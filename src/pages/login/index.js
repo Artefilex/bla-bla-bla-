@@ -20,6 +20,7 @@ export default function Login() {
         alert("succcsssssesss")
         localStorage.setItem("user",JSON.stringify(values))
       }
+
       router.push("/")
     },
   });
