@@ -8,17 +8,16 @@ import { useRouter } from "next/router";
 import { useEffect ,useState } from "react";
 import NavbarSearch from "./NavbarSearch";
 import { searchBooks } from "@/api/search";
+import { useDispatch, useSelector } from "react-redux";
+import { logOutUser } from "@/store/usersSlice";
 export default function Navbar() {
   const router = useRouter();
-  const [user, setUser] = useState(null)
-  
-  useEffect(()=>{
-    const userStorege =  localStorage.getItem("user")
-    setUser(JSON.parse(userStorege))
-   },[])
+const dispatch = useDispatch()
+  const user = useSelector((state) => state.user.user)
+
    const handleLogout = () => {
     localStorage.removeItem("user");
-    setUser(null);
+    dispatch(logOutUser())
   };
   return (
     <Box sx={{ flexGrow: 1 }}>

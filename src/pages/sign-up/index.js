@@ -2,26 +2,31 @@ import { Button, Container, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { signShema } from "@/helpers/validation";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 import axios from "axios";
+import {sigInUser} from "../../store/usersSlice"
 export default function SignUp() {
   const router = useRouter() 
+  const dispatch = useDispatch()
   const formik = useFormik({
     initialValues: {
-      username: "",
+      // username: "",
       password: "",
-      passwordConfirmation: "",
+      // passwordConfirmation: "",
       email: "",
     },
     validationSchema: signShema  ,
     onSubmit: async (values) => {
       try {
-        await  axios.post("http://localhost:3001/users",{
-          "username": values.username,
-          "email": values.email,
-          "password": values.password
-         })
+        // await  axios.post("http://localhost:3001/users",{
+        //   "username": values.username,
+        //   "email": values.email,
+        //   "password": values.password
+        //  })
+        console.log(values)
+         dispatch(sigInUser(values))
         alert('User Add');
-        router.push('/login');
+         router.push('/login');
       } catch (error) {
         alert('Failed user');
         console.error('An error occurred:', error);
@@ -49,7 +54,7 @@ export default function SignUp() {
           helperText={formik.touched.email && formik.errors.email}
           onBlur={formik.handleBlur}
         />
-        <TextField
+        {/* <TextField
           fullWidth
           id="username"
           name="username"
@@ -60,7 +65,7 @@ export default function SignUp() {
           error={formik.touched.username && Boolean(formik.errors.username)}
           helperText={formik.touched.username && formik.errors.username}
           onBlur={formik.handleBlur}
-        />
+        /> */}
         <TextField
           fullWidth
           id="password"
@@ -74,7 +79,7 @@ export default function SignUp() {
           onBlur={formik.handleBlur}
           type="password"
         />
-        <TextField
+        {/* <TextField
           fullWidth
           id="passwordConfirmation"
           name="passwordConfirmation"
@@ -85,7 +90,7 @@ export default function SignUp() {
           error={formik.touched.passwordConfirmation && Boolean(formik.errors.passwordConfirmation)}
           helperText={formik.touched.passwordConfirmation && formik.errors.passwordConfirmation}
           onBlur={formik.handleBlur}
-        />
+        /> */}
         <Button color="primary" variant="contained" fullWidth type="submit"> Sign Up </Button>
 
       </form>

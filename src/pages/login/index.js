@@ -4,23 +4,29 @@ import Link from "next/link";
 import { loginShema } from "@/helpers/validation";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { loginUser } from "@/store/usersSlice";
 
 export default function Login() {
   const router = useRouter() 
+  const dispatch = useDispatch()
   const formik = useFormik({
+   
     initialValues: {
-      username: "",
+    //  username: "", 
       password: "",
       email: "",
     },
     validationSchema: loginShema,
     onSubmit: async (values) => {
-       const response = await  axios.get(`http://localhost:3001/users?username=${values.username}&password=${values.password}&email=${values.email}`)
-      if(response.status === 200){
-        alert("succcsssssesss")
-        localStorage.setItem("user",JSON.stringify(values))
-      }
-
+      //  const response = await  axios.get(`http://localhost:3001/users?username=${values.username}&password=${values.password}&email=${values.email}`)
+      // if(response.status === 200){
+      //   alert("succcsssssesss")
+      //   localStorage.setItem("user",JSON.stringify(values))
+      // }
+      dispatch(loginUser(values))
+       localStorage.setItem("user", JSON.stringify(values))
+       
       router.push("/")
     },
   });
@@ -44,7 +50,7 @@ export default function Login() {
           helperText={formik.touched.email && formik.errors.email}
           onBlur={formik.handleBlur}
         />
-        <TextField
+        {/* <TextField
           fullWidth
           id="username"
           name="username"
@@ -55,7 +61,7 @@ export default function Login() {
           error={formik.touched.username && Boolean(formik.errors.username)}
           helperText={formik.touched.username && formik.errors.username}
           onBlur={formik.handleBlur}
-        />
+        /> */}
         <TextField
           fullWidth
           id="password"
