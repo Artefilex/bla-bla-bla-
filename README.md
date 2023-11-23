@@ -1,40 +1,164 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Açıklama
 
-## Getting Started
+**createSlice=** bize `global state` alanı tanımlar. `name` ,`initalState` , `reducer` ve `extraReducer` parametreleri alarak yönetim ortamını oluşturur.
 
-First, run the development server:
+```javascript
+import {createSlice } from "@reduxjs/toolkit";
+  const userSlice = createSlice({
+    name: '',
+    initialState : {}
+    reducers: {
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+    },
+    extraReducers: () => {
+
+  }});
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**configureStore=** ise bir `reducer` parametresi ile beraber oluşturulan `global statelerimizi` dışarıya aktarmaya yarar. genel olarak `store` diye adlandırılır
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+```javascript
+import { configureStore } from "@reduxjs/toolkit";
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+import userReducer from "./usersSlice";
+const store = configureStore({
+  reducer: {
+    user: userReducer,
+  },
+});
+export default store;
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+**Provider=** ise ismindende anlaşılacagı gibi saglayıcıdır. `configureStore` ile dışarı aktardıgımız `global statelere` ulaşmak istedigimiz alanları kavrayarak bize erişim imkanı tanır.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```javascript
 
-## Learn More
+export default store
+  import store from "@/store"
+import { Provider } from "react-redux"
+export default function App({ Component, pageProps }) {
+  return <Provider store={store}>
+    <Component {...pageProps} />
+  </Provider>
+}
+```
 
-To learn more about Next.js, take a look at the following resources:
+**useSelector=** bir `global state` ulaşma yani read alanıdır burda sadece `createSlice` ile oluşturulan `reducer` okuma imkanı tanır.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**useDispatch=** ise bizim `global state` üzerinde aksiyona gecmemize yarayan bir `global state'i` belirli bir aksiyona göre degistirmemize yarar
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```javascript
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
-## Deploy on Vercel
+import { useDispatch, useSelector } from "react-redux";
+import { logOutUser } from "@/store/usersSlice";
+export default function Navbar() {
+const dispatch = useDispatch()
+  const user = useSelector((state) => state.user.user)
+   const handleLogout = () => {
+    localStorage.removeItem("user");
+    dispatch(logOutUser())
+  };
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    {
+      user ? (
+        <Button color="inherit" onClick={handleLogout}> Log out</Button>
+      ): (
+        <Button
+        onClick={() => router.push("/login")}
+         color="inherit">
+        Login</Button>
+      )
+    }
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
+}
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+
+**createAsyncThunk=** api isteklerini `redux toolkit` ile gerceklestirmemize yarayan `asenkron` calısan bir fonksiyondur
+**reducer=**  `global statede` `senkron` sekilde gerceklestimrek istedigimiz fonksiyonları yazdıgımız yerdir
+
+```javascript
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const initialState = {
+    user: null,
+    isLoggedIn: false,
+    isSignIn: false,
+    signUser: null,
+    error: null,
+}
+export const loginUser = createAsyncThunk(
+    'user/login',
+    async (userData, { rejectWithValue }) => {
+      try {
+        const response = await axios.post(
+          'https://reqres.in/api/login',
+          userData
+        );
+        return response.data;
+      } catch (error) {
+        return rejectWithValue(error.response.data.error);
+      }
+    }
+  );
+
+export const sigInUser = createAsyncThunk(
+    'user/register',
+    async (userData, { rejectWithValue }) => {
+      try {
+        const response = await axios.post(
+          'https://reqres.in/api/register',
+          userData
+        );
+        return response.data;
+      } catch (error) {
+        return rejectWithValue(error.response.data.error);
+      }
+    }
+  );
+
+  const userSlice = createSlice({
+    name: 'user',
+    initialState,
+    reducers: {
+      logOutUser: (state) => {
+        state.user = null;
+        state.isLoggedIn = false;
+      },
+    },
+    extraReducers: (builder) => {
+      builder
+        .addCase(loginUser.fulfilled, (state, action) => {
+          state.user = action.payload;
+          state.isLoggedIn = true;
+          state.error = null;
+        })
+        .addCase(loginUser.rejected, (state, action) => {
+          state.error = action.payload || 'Giris Yapilamadi';
+        }).addCase(sigInUser.fulfilled, (state,action) =>{
+            state.signUser = action.payload,
+            state.isSignIn= true
+        })
+    },
+  });
+  
+  export const { logOutUser } = userSlice.actions;
+  export default userSlice.reducer; 
+```
+
+
