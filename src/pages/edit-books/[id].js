@@ -34,7 +34,7 @@ const EditBook = () => {
       },
       validationSchema: BookSchema,
       onSubmit: async (values) => {
-        axios
+      await  axios
         .put(`http://localhost:3001/books/${id}`, values)
         .then(() => {
           alert('Book updated successfully!');

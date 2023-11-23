@@ -35,7 +35,15 @@ export default function Navbar() {
             >
               Add Book
             </Button>
-            
+            <Button
+              onClick={() => router.push("/todo")}
+              variant="text"
+              sx={{
+                color: "white",
+              }}
+            >
+              Todo
+            </Button>
           </Typography>
           <NavbarSearch/>
     {
